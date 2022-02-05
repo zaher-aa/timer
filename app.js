@@ -67,10 +67,13 @@
 				let newTimeValue = getReadableTimeFromSeconds(
 					timeSumInSeconds - counter
 				);
-				if (timeSumInSeconds - counter === 0) clearInterval(timeInterval);
 				counter++;
-				timeWrapper.textContent = newTimeValue;
 				timeToContinueFrom = timeSumInSeconds - counter;
+				if (timeSumInSeconds - counter < 1) {
+					clearInterval(timeInterval);
+				} else {
+					timeWrapper.textContent = newTimeValue;
+				}
 			}, 1000);
 			startPauseBtn.textContent = "Pause";
 		}
