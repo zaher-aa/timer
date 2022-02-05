@@ -60,19 +60,25 @@
 	});
 
 	startPauseBtn.onclick = (e) => {
-		timeWrapper.textContent = getReadableTimeFromSeconds(timeSumInSeconds);
-		let counter = 1;
-		timeInterval = setInterval(() => {
-			let newTimeValue = getReadableTimeFromSeconds(timeSumInSeconds - counter);
-			if (timeSumInSeconds - counter === 0) clearInterval(timeInterval);
-			counter++;
-			timeWrapper.textContent = newTimeValue;
-			timeToContinueFrom = timeSumInSeconds - counter;
-		}, 1000);
+		if (e.target.textContent === "Start") {
+			timeWrapper.textContent = getReadableTimeFromSeconds(timeSumInSeconds);
+			let counter = 1;
+			timeInterval = setInterval(() => {
+				let newTimeValue = getReadableTimeFromSeconds(
+					timeSumInSeconds - counter
+				);
+				if (timeSumInSeconds - counter === 0) clearInterval(timeInterval);
+				counter++;
+				timeWrapper.textContent = newTimeValue;
+				timeToContinueFrom = timeSumInSeconds - counter;
+			}, 1000);
+			startPauseBtn.textContent = "Pause";
+		}
 	};
 
 	terminate.onclick = () => {
 		clearInterval(timeInterval);
 		timeWrapper.textContent = "00:00:00";
+		startPauseBtn.textContent = "Start";
 	};
 })();
