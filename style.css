@@ -1,0 +1,60 @@
+* {
+	padding: 0;
+	margin: 0;
+	box-sizing: border-box;
+	font-family: Arial, Helvetica, sans-serif;
+}
+
+.container {
+	padding-inline: 15px;
+	margin-inline: auto;
+}
+
+@media (min-width: 768px) {
+	.container {
+		width: 750px;
+	}
+}
+
+@media (min-width: 992px) {
+	.container {
+		width: 950px;
+	}
+}
+
+@media (min-width: 1200px) {
+	.container {
+		width: 1150px;
+	}
+}
+
+form {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+form div {
+	margin: 20px;
+}
+
+h1.time {
+	text-align: center;
+	margin-top: 250px;
+	font-size: 5rem;
+	letter-spacing: 10px;
+}
+
+.btns {
+	display: flex;
+	justify-content: center;
+	margin-top: 150px;
+}
+
+.btns button {
+	margin: 10px 20px;
+	display: block;
+	padding: 10px 20px;
+	font-size: 1.2rem;
+	cursor: pointer;
+}
