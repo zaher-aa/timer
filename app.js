@@ -6,23 +6,23 @@
 	const form = document.forms[0];
 	const startPauseBtn = document.querySelector(".stop-continue");
 	const terminate = document.querySelector(".terminate");
-	let timeToContinueFrom;
 	let timeInterval;
+	let timeSumInSeconds = 0;
+	let initialTimeSumInSeconds;
 	const timeObj = {
 		hours: 3600,
 		minutes: 60,
 		seconds: 1,
 	};
-	let timeSumInSeconds = 0;
 
 	const createCustomNumberForm = (num) => {
 		return num > 9 ? num : `0${num}`;
 	};
 
-	const getReadableTimeFromSeconds = (ms) => {
-		const date = new Date(ms * 1000);
+	const getReadableTimeFromSeconds = (seconds) => {
+		const date = new Date(seconds * 1000);
 		const hours = date.toString().slice(16, 18) - 2;
-		return ms >= 3600
+		return seconds >= 3600
 			? `${createCustomNumberForm(hours)}:${date.toString().slice(19, 24)}`
 			: `00:${date.toString().slice(19, 24)}`;
 	};
@@ -48,7 +48,7 @@
 
 	const selectInputs = document.querySelectorAll("select");
 	selectInputs.forEach((select) => {
-		select.onchange = (e) => {
+		select.onchange = () => {
 			const seconds = +form.seconds.value;
 			const minutes = +form.minutes.value;
 			const hours = +form.hours.value;
@@ -56,26 +56,29 @@
 				seconds * timeObj.seconds +
 				minutes * timeObj.minutes +
 				hours * timeObj.hours;
+			initialTimeSumInSeconds = timeSumInSeconds;
 		};
 	});
 
-	startPauseBtn.onclick = (e) => {
-		if (e.target.textContent === "Start") {
+	const countDown = () => {
+		if (timeSumInSeconds < 0) {
+			clearInterval(timeInterval);
+			startPauseBtn.textContent = "Start";
+		} else {
 			timeWrapper.textContent = getReadableTimeFromSeconds(timeSumInSeconds);
-			let counter = 1;
-			timeInterval = setInterval(() => {
-				let newTimeValue = getReadableTimeFromSeconds(
-					timeSumInSeconds - counter
-				);
-				counter++;
-				timeToContinueFrom = timeSumInSeconds - counter;
-				if (timeSumInSeconds - counter < -1) {
-					clearInterval(timeInterval);
-					startPauseBtn.textContent = "Start";
-				} else {
-					timeWrapper.textContent = newTimeValue;
-				}
-			}, 1000);
+			timeSumInSeconds--;
+		}
+	};
+
+	startPauseBtn.onclick = () => {
+		if (startPauseBtn.textContent === "Start") {
+			timeInterval = setInterval(countDown, 1000);
+			startPauseBtn.textContent = "Pause";
+		} else if (startPauseBtn.textContent === "Pause") {
+			clearInterval(timeInterval);
+			startPauseBtn.textContent = "Continue";
+		} else {
+			timeInterval = setInterval(countDown, 1000);
 			startPauseBtn.textContent = "Pause";
 		}
 	};
@@ -84,5 +87,6 @@
 		clearInterval(timeInterval);
 		timeWrapper.textContent = "00:00:00";
 		startPauseBtn.textContent = "Start";
+		timeSumInSeconds = initialTimeSumInSeconds;
 	};
 })();
