@@ -69,8 +69,9 @@
 				);
 				counter++;
 				timeToContinueFrom = timeSumInSeconds - counter;
-				if (timeSumInSeconds - counter < 1) {
+				if (timeSumInSeconds - counter < -1) {
 					clearInterval(timeInterval);
+					startPauseBtn.textContent = "Start";
 				} else {
 					timeWrapper.textContent = newTimeValue;
 				}
