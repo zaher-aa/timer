@@ -8,7 +8,7 @@
 	const terminate = document.querySelector(".terminate");
 	let timeInterval;
 	let timeSumInSeconds = 0;
-	let initialTimeSumInSeconds;
+	let initialTimeSumInSeconds = 0;
 	const timeObj = {
 		hours: 3600,
 		minutes: 60,
